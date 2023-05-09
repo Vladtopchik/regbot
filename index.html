@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reg</title>
+    <style>
+body {
+background-color: #fff;
+}
+
+input {
+    transition: .2s linear;
+}
+.inName {
+    top: 15px;
+}
+
+input[type="text"] {
+
+
+    border-radius: 10px;
+    border-color: orange;
+    border-width: 4px;
+    font-size: larger;
+    color:orange;
+    background-color: white;
+    position: absolute;
+
+
+
+    width: 300px;
+    height: 50px;
+}
+
+input[type="text"]::placeholder {
+    color: orange;
+}
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 2px solid;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border-color: orange;
+    position: absolute;
+    top: 256px;
+}
+
+input[type="checkbox"]:checked:before {
+    content: "\2713";
+    font-size: 16px;
+    line-height: 0;
+    padding-left: 2px;
+    vertical-align: middle;
+    color: orange;
+    font-weight: bold;
+}
+input[type="checkbox"]:hover {
+    border-color: rgb(181, 118, 0);
+}
+.txt {
+    color: orange;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    position: absolute;
+    top: 248px;
+    left: 37px;
+}
+.butReg {
+    color: white;
+    background-color: rgb(255, 212, 132);
+    border: none;
+    border-radius: 10px;
+    width: 250px;
+    height: 50px;
+    font-size: 26px;
+    cursor: not-allowed;
+    position: absolute;
+    transition: .2s linear;
+    position: absolute;
+    top: 293px;
+}
+/* .butReg:hover {
+    background-color: rgb(238, 145, 24);
+} */
+.inPass {
+    top: 97px;
+    -webkit-text-security: disc;
+}
+.inDpass {
+    top: 175px;
+    -webkit-text-security: disc;
+}
+img {
+    position: absolute;
+    top: 192px;
+    left: 330px;
+    cursor: pointer;
+}
+.main {
+    z-index: 9999;
+    transition: .2s linear;
+}
+.main:hover {
+    opacity: 0;
+}
+.name {
+    position: absolute;
+    display: none;
+    color: red;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 63px;
+    font-size: 14px;
+}
+.pass {
+    position: absolute;
+    display: none;
+    color: red;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 143px;
+    font-size: 14px;
+}
+
+.dpass {
+    position: absolute;
+    display: none;
+    color: red;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 223px;
+    font-size: 14px;
+}
+
+
+    </style>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+let tg = window.Telegram.WebApp
+tg.expand()
+let shown = false;
+
+function changeTextStyle() {
+    if (shown === false){
+        let pass = document.getElementById('pass');
+        let dpass = document.getElementById('dpass');
+        let nmain = document.getElementById('nmain');
+        let main = document.getElementById('main');
+        pass.style.webkitTextSecurity = 'none';
+        dpass.style.webkitTextSecurity = 'none';
+        nmain.src = "hide_dark.svg";
+        main.src = "hide.svg";
+        shown = true;
+    } else if (shown === true){
+        let pass = document.getElementById('pass');
+        let dpass = document.getElementById('dpass');
+        let nmain = document.getElementById('nmain');
+        let main = document.getElementById('main');
+        pass.style.webkitTextSecurity = 'disc';
+        dpass.style.webkitTextSecurity = 'disc';
+        nmain.src = "show_dark.svg";
+        main.src = "show.svg";
+        shown = false;
+    }
+};
+function regButton() {
+    let inName = document.getElementById('name');
+    let pName = document.getElementById('pName');
+    let inPass = document.getElementById('pass');
+    let pPass = document.getElementById('pPass');
+    let aPass = document.getElementById('aPass');
+    let cPass = document.getElementById('cPass');
+    let inDPass = document.getElementById('dpass');
+    let dPass = document.getElementById('indpass');
+    let checkBox = document.getElementById('chk');
+    let name = inName.value;
+    let pass = inPass.value;
+    let dubpass = inDPass.value;
+    pName.style.display = 'none';
+    pPass.style.display = 'none';
+    aPass.style.display = 'none';
+    cPass.style.display = 'none';
+    dPass.style.display = 'none';
+    if (checkBox.checked){
+    if (name !== '' && /\S/.test(name)) {
+    pName.style.display = 'none';
+    if (pass.trim() !== '') {
+        pPass.style.display = 'none';
+        if (pass.length >= 4) {
+            aPass.style.display = 'none';
+            if (/^[0-9a-zA-Z_]+$/.test(pass)) {
+                cPass.style.display = 'none';
+                if (pass === dubpass) {
+                    dPass.style.display = 'none';
+                    if (checkBox.checked){
+                        tg.sendData({'pass': pass,'name': name});
+                    }
+                  } else {
+                    dPass.style.display = 'block';
+                  }
+              } else {
+                cPass.style.display = 'block';
+              }
+          } else {
+            aPass.style.display = 'block';
+          }
+
+    } else {
+        pPass.style.display = 'block';
+    }
+    } else {
+    pName.style.display = 'block';
+    }}
+};
+function enter(){
+    but.style.backgroundColor = 'rgb(238, 145, 24)';
+};
+function leave(){
+    but.style.backgroundColor = 'orange';
+};
+function checkBoxs(){
+    let checkBox = document.getElementById('chk');
+    let but = document.getElementById('but');
+    if (checkBox.checked) {
+        but.style.backgroundColor = 'orange';
+        but.style.cursor = 'pointer';
+
+        but.addEventListener('mouseenter', enter);
+        but.addEventListener('mouseleave', leave);
+    } else {
+        but.style.backgroundColor = 'rgb(255, 212, 132)';
+        but.style.cursor = 'not-allowed';
+        but.removeEventListener('mouseenter', enter);
+        but.removeEventListener('mouseleave', leave);
+    }
+}
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="item">
+                <input type="text" id="name" class="inName" placeholder="Ім'я">
+                <input type="text" id="pass" class="inPass" placeholder="Пароль" oncopy="return false;">
+                <input type="text" id="dpass" class="inDpass" placeholder="Дублювати пароль" oncopy="return false;">
+                <input onclick="checkBoxs()" id="chk" type="checkbox" class="chk" value="checkboxValue">
+                <p class="txt">Я погоджуюся з політикою конфеденціальності</p>
+                <button onclick="regButton()" id="but" class="butReg">Зареєструватися</button>
+                <img id="nmain" src="show_dark.svg">
+                <img class="main" onclick="changeTextStyle()" title="Показати/сховати пароль" id="main" src="show.svg">
+                <p id="pName" class="name">Це поле має бути заповненим!!!</p>
+                <p id="pPass" class="pass">Це поле має бути заповненим!!!</p>
+                <p id="aPass" class="pass">Довжина паролю має бути не менше ніж чотири символи</p>
+                <p id="cPass" class="pass">Пароль може складатися лише з цифр, латинських букв і знака "_"</p>
+                <p id="indpass" class="dpass">Паролі не співпадають</p>
+        </div>
+    </div>
+</body>
+</html>
